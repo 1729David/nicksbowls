@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nick's Bowls — Handcrafted Wooden Bowls for the Discerning</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Josefin+Sans:wght@300;400;600&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep-forest: #1a2e1a;
+    --dark-wood: #2c1810;
+    --warm-amber: #c8922a;
+    --gold: #d4a542;
+    --fog: #d8d4cc;
+    --cream: #f0ebe3;
+    --moss: #4a6741;
+    --river-blue: #3a5a6e;
+    --bark: #5c3a24;
+    --smoke: rgba(26,46,26,0.85);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--deep-forest);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(74,103,65,0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(58,90,110,0.2) 0%, transparent 50%),
+      linear-gradient(175deg, #0d1a0d 0%, #1a2e1a 40%, #2c1810 100%);
+    padding: 2rem;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: 
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 120px,
+        rgba(200,146,42,0.02) 120px,
+        rgba(200,146,42,0.02) 121px
+      );
+    pointer-events: none;
+  }
+
+  /* Misty mountain silhouette */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 40%;
+    background:
+      linear-gradient(170deg, transparent 30%, rgba(26,46,26,0.4) 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400'%3E%3Cpath d='M0,400 L0,280 Q120,180 240,250 Q360,140 480,200 Q560,100 720,160 Q840,60 960,140 Q1080,80 1200,180 Q1320,120 1440,200 L1440,400Z' fill='rgba(13,26,13,0.3)'/%3E%3Cpath d='M0,400 L0,320 Q180,240 360,290 Q500,200 720,260 Q900,180 1080,240 Q1260,200 1440,280 L1440,400Z' fill='rgba(13,26,13,0.2)'/%3E%3C/svg%3E") no-repeat bottom / cover;
+    pointer-events: none;
+  }
+
+  .hero-tagline {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: var(--warm-amber);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.95;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .hero-title span {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.45em;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-top: 0.3em;
+  }
+
+  .hero-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    max-width: 600px;
+    color: var(--fog);
+    margin: 2rem auto;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .hero-quote em {
+    color: var(--warm-amber);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .hero-cta {
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+  }
+
+  .btn {
+    font-family: 'Josefin Sans', sans-serif;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    padding: 1rem 3rem;
+    border: 1.5px solid var(--warm-amber);
+    background: transparent;
+    color: var(--warm-amber);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: var(--warm-amber);
+    transition: left 0.4s ease;
+    z-index: -1;
+  }
+
+  .btn:hover { color: var(--deep-forest); }
+  .btn:hover::before { left: 0; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(13,26,13,0.9), transparent);
+    transition: background 0.4s;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--warm-amber); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--fog);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--warm-amber);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--warm-amber); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ===== QUOTE BANNER ===== */
+  .quote-banner {
+    background: var(--dark-wood);
+    padding: 3rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(200,146,42,0.2);
+    border-bottom: 1px solid rgba(200,146,42,0.2);
+    position: relative;
+  }
+
+  .quote-banner p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--fog);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .quote-banner p strong {
+    color: var(--warm-amber);
+    font-weight: 700;
+  }
+
+  .quote-banner .attribution {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-top: 1rem;
+    display: block;
+  }
+
+  /* ===== PRODUCTS ===== */
+  .products {
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--warm-amber);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .section-subtitle {
+    font-style: italic;
+    color: var(--fog);
+    margin-top: 1rem;
+    font-size: 1.15rem;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+
+  .product-card {
+    background: linear-gradient(145deg, rgba(44,24,16,0.8), rgba(26,46,26,0.6));
+    border: 1px solid rgba(200,146,42,0.15);
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.4s ease, border-color 0.4s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(200,146,42,0.4);
+  }
+
+  .product-img {
+    width: 100%;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-img .bowl-icon {
+    font-size: 6rem;
+    filter: drop-shadow(0 4px 20px rgba(200,146,42,0.3));
+    transition: transform 0.5s ease;
+  }
+
+  .product-card:hover .bowl-icon { transform: scale(1.1) rotate(-3deg); }
+
+  .product-img.cedar { background: linear-gradient(135deg, #3a2218, #5c3a24); }
+  .product-img.maple { background: linear-gradient(135deg, #4a3520, #6b4c2e); }
+  .product-img.walnut { background: linear-gradient(135deg, #2a1a12, #4a2e1c); }
+  .product-img.madrone { background: linear-gradient(135deg, #5c2a1a, #7a3e28); }
+  .product-img.alder { background: linear-gradient(135deg, #3e3020, #5a4830); }
+  .product-img.cherry { background: linear-gradient(135deg, #4a2020, #6a3030); }
+
+  .product-info {
+    padding: 2rem;
+  }
+
+  .product-wood {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 0.5rem;
+  }
+
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-desc {
+    font-size: 1rem;
+    color: var(--fog);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .product-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--warm-amber);
+    font-weight: 700;
+  }
+
+  .btn-small {
+    font-family: 'Josefin Sans', sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    padding: 0.7rem 1.8rem;
+    border: 1px solid var(--warm-amber);
+    background: transparent;
+    color: var(--warm-amber);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-small:hover {
+    background: var(--warm-amber);
+    color: var(--deep-forest);
+  }
+
+  /* ===== ABOUT / STORY ===== */
+  .about {
+    padding: 6rem 2rem;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(58,90,110,0.15), transparent 60%),
+      linear-gradient(180deg, var(--deep-forest), var(--dark-wood));
+  }
+
+  .about-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-portrait {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(145deg, #2c1810, #1a2e1a);
+    border: 1px solid rgba(200,146,42,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-portrait::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background:
+      radial-gradient(circle at 50% 40%, rgba(200,146,42,0.1), transparent 60%);
+  }
+
+  .portrait-icon {
+    font-size: 8rem;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+  }
+
+  .portrait-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--warm-amber);
+    opacity: 0.7;
+  }
+
+  .about-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+  }
+
+  .about-text h2 span {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.5em;
+    color: var(--gold);
+  }
+
+  .about-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--fog);
+    margin-top: 1.5rem;
+  }
+
+  .about-text .fun-fact {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-left: 2px solid var(--warm-amber);
+    background: rgba(200,146,42,0.05);
+    font-style: italic;
+  }
+
+  .fun-fact strong {
+    color: var(--warm-amber);
+    font-style: normal;
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials {
+    padding: 6rem 2rem;
+    background: var(--deep-forest);
+  }
+
+  .testimonial-grid {
+    max-width: 1000px;
+    margin: 3rem auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    padding: 2.5rem;
+    background: rgba(44,24,16,0.4);
+    border: 1px solid rgba(200,146,42,0.1);
+    position: relative;
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--warm-amber);
+    opacity: 0.2;
+    position: absolute;
+    top: 10px; left: 20px;
+    line-height: 1;
+  }
+
+  .testimonial-card p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--fog);
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonial-author {
+    margin-top: 1.5rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-amber);
+    font-style: normal !important;
+  }
+
+  /* ===== PHILOSOPHY ===== */
+  .philosophy {
+    padding: 5rem 2rem;
+    text-align: center;
+    background:
+      linear-gradient(180deg, var(--deep-forest), #0d1a0d);
+    border-top: 1px solid rgba(200,146,42,0.1);
+  }
+
+  .philosophy-items {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .philosophy-item {
+    padding: 2rem 1rem;
+  }
+
+  .philosophy-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .philosophy-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .philosophy-item p {
+    font-size: 0.95rem;
+    color: var(--fog);
+    line-height: 1.6;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 4rem 2rem 2rem;
+    background: #0a130a;
+    border-top: 1px solid rgba(200,146,42,0.15);
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo span { color: var(--warm-amber); }
+
+  .footer-tagline {
+    font-style: italic;
+    color: var(--fog);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--fog);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--warm-amber); }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: rgba(216,212,204,0.4);
+    margin-top: 2rem;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-inner { grid-template-columns: 1fr; }
+    .philosophy-items { grid-template-columns: 1fr; gap: 1.5rem; }
+    .product-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--deep-forest); }
+  ::-webkit-scrollbar-thumb { background: var(--bark); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--warm-amber); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Nick's <span>Bowls</span></a>
+  <ul class="nav-links">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#story">The Legend</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tagline">Handcrafted in the Pacific Northwest</p>
+  <h1 class="hero-title">
+    Nick's Bowls
+    <span>He doesn't always turn wood. But when he does, it's legendary.</span>
+  </h1>
+  <p class="hero-quote">
+    "I don't always eat cereal. But when I do, I prefer it in a hand-turned 
+    old-growth maple bowl with a <em>food-safe finish</em> and a story 
+    that starts in a mossy forest."
+  </p>
+  <div class="hero-cta">
+    <a href="#collection" class="btn">Explore the Collection</a>
+  </div>
+</section>
+
+<!-- QUOTE BANNER -->
+<div class="quote-banner">
+  <p>"His bowls have been known to <strong>make salads interesting</strong>. 
+  Trees volunteer their best wood when they see him coming. 
+  He is… the most interesting woodturner in the world."</p>
+  <span class="attribution">— Legends of the Workshop</span>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="collection">
+  <div class="section-header fade-in">
+    <p class="section-label">The Collection</p>
+    <h2 class="section-title">Bowls Worth Staying Thirsty For</h2>
+    <p class="section-subtitle">Each one turned by hand from Pacific Northwest timber. No two are alike — just like good stories.</p>
+  </div>
+
+  <div class="product-grid">
+    <div class="product-card fade-in">
+      <div class="product-img cedar">
+        <span class="bowl-icon">🥣</span>
+      </div>
+      <div class="product-info">
+        <p class="product-wood">Western Red Cedar</p>
+        <h3 class="product-name">The Rainmaker</h3>
+        <p class="product-desc">Aromatic cedar from the Olympic Peninsula. It doesn't just hold your fruit — it gives it a sense of purpose.</p>
+        <div class="product-footer">
+          <span class="product-price">$185</span>
+          <button class="btn-small">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-in">
+      <div class="product-img maple">
+        <span class="bowl-icon">🥣</span>
+      </div>
+      <div class="product-info">
+        <p class="product-wood">Big Leaf Maple Burl</p>
+        <h3 class="product-name">The Conversationalist</h3>
+        <p class="product-desc">Spalted burl with grain patterns so complex, dinner guests will forget about the food entirely.</p>
+        <div class="product-footer">
+          <span class="product-price">$320</span>
+          <button class="btn-small">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-in">
+      <div class="product-img walnut">
+        <span class="bowl-icon">🥣</span>
+      </div>
+      <div class="product-info">
+        <p class="product-wood">Oregon Black Walnut</p>
+        <h3 class="product-name">The Distinguished</h3>
+        <p class="product-desc">Dark, rich, and commanding. This bowl has been known to improve the quality of whatever you put in it by 40%.</p>
+        <div class="product-footer">
+          <span class="product-price">$245</span>
+          <button class="btn-small">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-in">
+      <div class="product-img madrone">
+        <span class="bowl-icon">🥣</span>
+      </div>
+      <div class="product-info">
+        <p class="product-wood">Pacific Madrone</p>
+        <h3 class="product-name">The Firewalker</h3>
+        <p class="product-desc">Flame-red heartwood that radiates warmth. Other bowls tell people about this bowl at parties.</p>
+        <div class="product-footer">
+          <span class="product-price">$275</span>
+          <button class="btn-small">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-in">
+      <div class="product-img alder">
+        <span class="bowl-icon">🥣</span>
+      </div>
+      <div class="product-info">
+        <p class="product-wood">Red Alder</p>
+        <h3 class="product-name">The Humble Legend</h3>
+        <p class="product-desc">Light, elegant, understated. It doesn't brag about being handmade. It doesn't have to.</p>
+        <div class="product-footer">
+          <span class="product-price">$145</span>
+          <button class="btn-small">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-in">
+      <div class="product-img cherry">
+        <span class="bowl-icon">🥣</span>
+      </div>
+      <div class="product-info">
+        <p class="product-wood">Bitter Cherry</p>
+        <h3 class="product-name">The Gentleman</h3>
+        <p class="product-desc">Warm pink tones that deepen with age, like a fine reputation. Pairs well with everything, especially confidence.</p>
+        <div class="product-footer">
+          <span class="product-price">$195</span>
+          <button class="btn-small">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="story">
+  <div class="about-inner">
+    <div class="about-portrait fade-in">
+      <div class="portrait-icon">🪵</div>
+      <div class="portrait-label">The Man. The Myth. The Woodturner.</div>
+    </div>
+    <div class="about-text fade-in">
+      <h2>
+        Meet Nick
+        <span>The Most Interesting Woodturner in the World</span>
+      </h2>
+      <p>
+        Somewhere between the mist-covered peaks of the Cascades and the ancient 
+        forests of the Oregon coast, Nick discovered that wood has stories to tell — 
+        you just need the right hands to coax them out.
+      </p>
+      <p>
+        Armed with a lathe, a lifetime of Pacific Northwest wandering, and a beard 
+        that local Douglas firs respect, Nick transforms salvaged timber into vessels 
+        of uncommon beauty. Every bowl is turned by hand, finished with food-safe oils, 
+        and infused with the kind of quiet confidence that only comes from years of 
+        letting the wood speak first.
+      </p>
+      <div class="fun-fact">
+        <strong>"He once turned a bowl so beautiful, </strong>a barista gave him free 
+        pour-over coffee for a year. He doesn't always accept compliments — but when 
+        he does, he prefers them about his grain selection."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header fade-in">
+    <p class="section-label">Word on the Trail</p>
+    <h2 class="section-title">What They're Saying</h2>
+  </div>
+
+  <div class="testimonial-grid">
+    <div class="testimonial-card fade-in">
+      <p>I bought the Conversationalist for my wife. She now talks to the bowl more than she talks to me. I'm not even mad — the grain pattern really is that captivating.</p>
+      <p class="testimonial-author">— Derek M., Bend, OR</p>
+    </div>
+    <div class="testimonial-card fade-in">
+      <p>I've served salad in Nick's bowls at three dinner parties. Each time, someone asked for the recipe. There is no recipe. It's just the bowl.</p>
+      <p class="testimonial-author">— Sarah K., Seattle, WA</p>
+    </div>
+    <div class="testimonial-card fade-in">
+      <p>My cat refuses to eat from anything else now. I didn't buy him a $245 walnut bowl — but I also can't return it because he sleeps in it.</p>
+      <p class="testimonial-author">— Jamie T., Portland, OR</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="section-header fade-in">
+    <p class="section-label">The Creed</p>
+    <h2 class="section-title">A Bowl Is Never Just a Bowl</h2>
+  </div>
+
+  <div class="philosophy-items">
+    <div class="philosophy-item fade-in">
+      <div class="philosophy-icon">🌲</div>
+      <h3>Sustainably Sourced</h3>
+      <p>Every piece comes from salvaged, storm-fallen, or responsibly harvested PNW timber. No living trees were harmed in the making of your dinner bowl.</p>
+    </div>
+    <div class="philosophy-item fade-in">
+      <div class="philosophy-icon">🤲</div>
+      <h3>Turned by Hand</h3>
+      <p>No CNC. No shortcuts. Just a man, a lathe, and the kind of patience that comes from watching fog roll through old-growth forests.</p>
+    </div>
+    <div class="philosophy-item fade-in">
+      <div class="philosophy-icon">♾️</div>
+      <h3>Built to Last</h3>
+      <p>Finished with food-safe oils and designed to develop character with age. These bowls don't decline — they become more interesting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-logo">Nick's <span>Bowls</span></div>
+  <p class="footer-tagline">"Stay woody, my friends."</p>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">Workshop Visits</a>
+    <a href="#">Custom Orders</a>
+    <a href="#">Shipping & Care</a>
+    <a href="mailto:nick@nicksbowls.com">nick@nicksbowls.com</a>
+  </div>
+  <p class="footer-copy">© 2026 Nick's Bowls. Handcrafted in the Pacific Northwest. All bowls are one-of-a-kind, just like you.</p>
+</footer>
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
